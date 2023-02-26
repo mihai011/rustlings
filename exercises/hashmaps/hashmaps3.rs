@@ -14,7 +14,6 @@
 
 // Execute `rustlings hint hashmaps3` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
 
 use std::collections::HashMap;
 
@@ -28,7 +27,6 @@ struct Team {
 fn build_scores_table(results: String) -> HashMap<String, Team> {
     // The name of the team is the key and its associated struct is the value.
     let mut scores: HashMap<String, Team> = HashMap::new();
-
     for r in results.lines() {
         let v: Vec<&str> = r.split(',').collect();
         let team_1_name = v[0].to_string();
@@ -40,6 +38,24 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
         // will be the number of goals conceded from team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
+        let team1  = Team{
+            name: team_1_name,
+            goals_scored:0,
+            goals_conceded:0
+        };
+        let previous_team1 = scores.entry(team1.name.to_owned()).or_insert(team1);
+        previous_team1.goals_scored += team_1_score;
+        previous_team1.goals_conceded += team_2_score;
+
+        let team2  = Team{
+            name: team_2_name,
+            goals_scored:0,
+            goals_conceded:0
+        };
+        let previous_team2 = scores.entry(team2.name.to_owned()).or_insert(team2);
+        previous_team2.goals_scored += team_2_score;
+        previous_team2.goals_conceded += team_1_score;
+
     }
     scores
 }
